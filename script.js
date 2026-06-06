@@ -1,97 +1,137 @@
 let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
 
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  let output = document.querySelector('output');
+  let firstNum = document.querySelector('#first-num').value;
+  let secondNum = document.querySelector('#second-num').value;
+  let operator = document.querySelector('#operator').value;
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+  // try/catch/finally with throw 
+  try {
+    if (firstNum === '' || secondNum === '') {
+      throw new ValidationError('Both input fields must be filled out');
+    }
+    if (operator === '/' && Number(secondNum) === 0) {
+      throw new ValidationError('Cannot divide by zero');
+    }
 
+    output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
 
-    // console.log
-    const consoleLogBtn = document.getElementById('console-log');
-    const consoleErrorBtn = document.getElementById('console-error');
-    const consoleWarnBtn = document.getElementById('console-warn');
-    const consoleAssertBtn = document.getElementById('console-assert');
-    const consoleClearBtn = document.getElementById('console-clear');
-    const consoleDirBtn = document.getElementById('console-dir');
-    const consoleDirxmlBtn = document.getElementById('console-dirxml');
-    const consoleGroupStartBtn = document.getElementById('console-group-start');
-    const consoleGroupEndBtn = document.getElementById('console-group-end');
-    const consoleTableBtn = document.getElementById('console-table');
-    const startTimerBtn = document.getElementById('start-timer');
-    const endTimerBtn = document.getElementById('end-timer');
-    const consoleTraceBtn = document.getElementById('console-trace');
-    const triggerGlobalErrorBtn = document.getElementById('trigger-global-error');
+  } catch (error) {
+    console.error('Calculation error:', error);
+    output.textContent = error.message;
+
+  } finally {
+    console.log('Calculation attempt finished');
+  }
+});
 
 
-    consoleLogBtn.addEventListener('click', () => {
-            console.log('Button was clicked!');
-    });
+//  Custom error class extending Error
+class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ValidationError';
+  }
+}
 
-    consoleErrorBtn.addEventListener('click', () => {
-            console.error('This is an error message!');
-    });
 
-    consoleWarnBtn.addEventListener('click', () => {
-            console.warn('This is a warning message!');
-    });
+let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
 
-    consoleAssertBtn.addEventListener('click', () => {
-            console.assert(1 === 2, 'Assertion failed: 1 is not equal to 2');
-    });   
+// console.log
+const consoleLogBtn = document.getElementById('console-log');
+const consoleErrorBtn = document.getElementById('console-error');
+const consoleCountBtn = document.getElementById('console-count');
+const consoleWarnBtn = document.getElementById('console-warn');
+const consoleAssertBtn = document.getElementById('console-assert');
+const consoleClearBtn = document.getElementById('console-clear');
+const consoleDirBtn = document.getElementById('console-dir');
+const consoleDirxmlBtn = document.getElementById('console-dirxml');
+const consoleGroupStartBtn = document.getElementById('console-group-start');
+const consoleGroupEndBtn = document.getElementById('console-group-end');
+const consoleTableBtn = document.getElementById('console-table');
+const startTimerBtn = document.getElementById('start-timer');
+const endTimerBtn = document.getElementById('end-timer');
+const consoleTraceBtn = document.getElementById('console-trace');
+const triggerGlobalErrorBtn = document.getElementById('trigger-global-error');
 
-    consoleClearBtn.addEventListener('click', () => {
-            console.clear();
-    });
+consoleLogBtn.addEventListener('click', () => {
+  console.log('Button was clicked!');
+});
 
-    consoleDirBtn.addEventListener('click', () => {
-            console.dir(document.body);
-    });     
+consoleErrorBtn.addEventListener('click', () => {
+  console.error('This is an error message!');
+});
 
-    consoleDirxmlBtn.addEventListener('click', () => {
-            console.dirxml(document.body);
-    });
+consoleCountBtn.addEventListener('click', () => {
+  console.count('Button clicked');
+});
 
-    consoleGroupStartBtn.addEventListener('click', () => {
-            console.group('My Group');
-            console.log('Inside the group');
-    });
+consoleWarnBtn.addEventListener('click', () => {
+  console.warn('This is a warning message!');
+});
 
-    consoleGroupEndBtn.addEventListener('click', () => {
-            console.groupEnd();
-    }); 
+consoleAssertBtn.addEventListener('click', () => {
+  console.assert(1 === 2, 'Assertion failed: 1 is not equal to 2');
+});
 
-    consoleTableBtn.addEventListener('click', () => {
-            const data = [
-                { name: 'Powell', age: 30 },
-                { name: 'Nishant', age: 19}
-            ];
-            console.table(data);
-    });
+consoleClearBtn.addEventListener('click', () => {
+  console.clear();
+});
 
-    startTimerBtn.addEventListener('click', () => {
-            console.time('My Timer');
-    });
+consoleDirBtn.addEventListener('click', () => {
+  console.dir(document.body);
+});
 
-    endTimerBtn.addEventListener('click', () => {
-            console.timeEnd('My Timer');
-    });   
+consoleDirxmlBtn.addEventListener('click', () => {
+  console.dirxml(document.body);
+});
 
-    consoleTraceBtn.addEventListener('click', () => {
-            function a() {
-                function b() { 
-                    console.trace('Trace message');
-                } 
-                b();
-            } 
-            a();
-    });
+consoleGroupStartBtn.addEventListener('click', () => {
+  console.group('My Group');
+  console.log('Inside the group');
+});
 
- 
+consoleGroupEndBtn.addEventListener('click', () => {
+  console.groupEnd();
+});
+
+consoleTableBtn.addEventListener('click', () => {
+  const data = [
+    { name: 'Powell', age: 30 },
+    { name: 'Nishant', age: 19 }
+  ];
+  console.table(data);
+});
+
+startTimerBtn.addEventListener('click', () => {
+  console.time('My Timer');
+});
+
+endTimerBtn.addEventListener('click', () => {
+  console.timeEnd('My Timer');
+});
+
+consoleTraceBtn.addEventListener('click', () => {
+  function a() {
+    function b() {
+      console.trace('Trace message');
+    }
+    b();
+  }
+  a();
+});
+
+// window.onerror 
+window.onerror = function (message, source, lineno, colno, error) {
+  console.log(`Global error caught: "${message}" at line ${lineno}`);
+
+};
+
+// Triggers a ReferenceError 
+triggerGlobalErrorBtn.addEventListener('click', () => {
+  setTimeout(() => {
+    undefinedFunction(); /
+  }, 0);
+});
